@@ -6,6 +6,7 @@ import lxml.etree as etree
 from wand.api import library
 import wand.color
 import wand.image   
+
 '''
 svg_doc = svgwrite.Drawing(filename = "test-svgwrite.svg",
                                 size = ("1000px", "1000px"))
@@ -267,26 +268,31 @@ if __name__ == '__main__':
     main_Matrix(base = svg_doc,max_detail = max_detail, matrix_center = draw_center, start_radius = 200) 
     
     svg_doc.save()
-    
+
     etree_parse = etree.parse(svg_doc.filename)
     outPretty = etree.tostring(etree_parse, pretty_print=True, encoding="unicode")
     with open(svg_doc.filename,"w") as svg_file:
         svg_file.write(outPretty)
+    
+    print(f"[Finished in {(time.time() - start_time):.4f}]")
 
 
     def svg_to_png(infile, outfile, dpi=300):
-        with wand.image.Image(resolution=300) as image:
+        with wand.image.Image(resolution=dpi) as image:
             with wand.color.Color('transparent') as background_color:
                 library.MagickSetBackgroundColor(image.wand,
                                                 background_color.resource)
-            image.read(filename=infile, resolution=300)
+            image.read(filename=infile, resolution=dpi)
             png_image = image.make_blob("png32")
             with open(outfile, "wb") as out:
                 out.write(png_image)
 
-    svg_to_png(svg_doc.filename, f"wand-{svg_doc.filename[:-4]}.png", dpi=200)
+    svg_to_png(svg_doc.filename, f"wand-{svg_doc.filename[:-4]}.png", dpi=100)
+
     #f"{svg_doc.filename[:-4]}-Masked.svg"
-    '''
+    
+
+'''
     from wand.api import library
     import wand.color
     import wand.image
@@ -301,6 +307,7 @@ if __name__ == '__main__':
     with open(output_filename, "wb") as out:
         out.write(png_image)
 
+    
     
     #doesnt support alpha channel sadly
     from svglib.svglib import svg2rlg
@@ -399,6 +406,6 @@ s
                                 stroke = "purple",
                                 stroke_width = 2,
                                 stroke_linejoin = "bevel"))
-   '''
+'''
 
-    print(f"[Finished in {(time.time() - start_time):.4f}]")
+    
