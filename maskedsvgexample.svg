@@ -18,7 +18,7 @@
     <polyline fill="none" points="512,312 512.0,512.0 668,387 512.0,512.0 707,557 512.0,512.0 599,692 512.0,512.0 425,692 512.0,512.0 317,557 512.0,512.0 356,387 512.0,512.0" stroke="green" stroke-width="1"/>
     <polygon fill="none" points="512,312 668,387 707,557 599,692 425,692 317,557 356,387" stroke="green" stroke-linejoin="bevel" stroke-width="1"/>
     <circle cx="512.0" cy="512.0" fill="none" r="200" stroke="purple" stroke-width="1"/>
-    <g fill="none" stroke="purple" stroke-width="1">
+    <g fill="black" stroke="red" stroke-width="2">
       <!-- fill and stroke properties are moved to a parent <g> so that they
            aren't applied when referenced from the <mask>. -->
       <circle id="c1" cx="512" cy="312" r="66.66666666666667"/>

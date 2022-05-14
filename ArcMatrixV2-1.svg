@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" ill-rule="evenodd" height="1024" version="1.1" width="1024">
+  <defs>
+    <mask id="Circle2-Mask" >
+      <rect fill="white" height="1024" width="1024" x="0" y="0"/>
+      <circle cx="512.0" cy="512.0" fill="black"  r="199"/>
+    </mask>
+    <mask id="Circle4-Mask" >
+      <rect fill="white" height="1024" width="1024" x="0" y="0"/>
+      <circle cx="512.0" cy="512.0" fill="black"  r="249"/>
+    </mask>
+
+  </defs>
+  
+<g mask="url(#Circle4-Mask)">
+    <circle cx="512.0" cy="512.0" fill="none" id="Circle4" r="250" stroke="green" stroke-width="2" />
+    <circle cx="512.0" cy="512.0" fill="none" id="Circle5" r="100" stroke="green" stroke-width="2" />
+    <circle cx="512.0" cy="512.0" fill="none" id="Circle5" r="150" stroke="green" stroke-width="2" />
+    
+   
+  </g>
+ <g mask="url(#Circle2-Mask)" >
+        <circle cx="512.0" cy="512.0" fill="none" id="Circle0" r="200" stroke="purple" stroke-width="2"/>
+        <circle cx="512.0" cy="512.0" fill="none" id="Circle3" r="350" stroke="purple" stroke-width="2"/>
+        <circle cx="512.0" cy="512.0" fill="none" id="Circle2" r="300" stroke="purple" stroke-width="2"/>
+</g>
+
+</svg>
