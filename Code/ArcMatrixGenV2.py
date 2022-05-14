@@ -1,14 +1,14 @@
-from cmath import rect
+
 from math import cos, sin, floor, radians, pi
 from turtle import width
 import lxml.etree as etree
 import random
-from matplotlib import units
 import svgwrite
 from wand.api import library
 import wand.color
 import wand.image   
-
+import cv2
+import numpy as np
 
 class PriorityQueue: #https://youtu.be/wptevk0bshY
     pass
@@ -342,7 +342,7 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
         with open(self.filename,"w") as svg_file:
             svg_file.write(outPretty)
 
-    def exportTransPNG(self, resolution=300):
+    def exportTransPNG(self, resolution=300, whitebg = False):
         with wand.image.Image(resolution=resolution) as image:
             with wand.color.Color('transparent') as background_color:
                 library.MagickSetBackgroundColor(image.wand,
@@ -351,6 +351,10 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
             png_image = image.make_blob("png32")
             with open(f"wand-{self.filename[:-4]}.png", "wb") as out:
                 out.write(png_image)
+            if not whitebg:
+                self.removebackground(f"wand-{self.filename[:-4]}.png")
+        
+        
 
     def generateBuildData(self): #this figures out what needs to be masked
         pass
@@ -389,12 +393,13 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
                     
                 case "RotaryDial":
                     for s in shape.rings:
+                        filler = "white" if s.Opaque else s.fill
                         circle = doc.add(doc.circle(id = s.SId,
                                                 center = s.center,
                                                 r = s.majorRadius,
                                                 stroke = s.strokeColor,
                                                 stroke_width = s.strokeWidth,
-                                                fill = s.fill))
+                                                fill = filler))
 
                 case "Polygon":
                     pass
@@ -407,6 +412,52 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
                 case "LineBurst":
                     pass
     
+    def removebackground(self, filename, threshhold = 150):
+    # load image
+        img = cv2.imread(f'{filename}')
+
+        # convert to graky
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        # threshold input image as mask
+        mask = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)[1]
+
+        # negate mask
+        mask = 255 - mask
+
+        # apply morphology to remove isolated extraneous noise
+        # use borderconstant of black since foreground touches the edges
+        kernel = np.ones((1,1), np.uint8)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
+        # anti-alias the mask -- blur then stretch
+        # blur alpha channel
+        mask = cv2.GaussianBlur(mask, (3,3), sigmaX=2, sigmaY=2, borderType = cv2.BORDER_DEFAULT)
+
+        # linear stretch so that 127.5 goes to 0, but 255 stays 255
+        mask = (2*(mask.astype(np.float32))-255.0).clip(0,255).astype(np.uint8)
+
+        # put mask into alpha channel
+        
+        #trying to increase contrast
+    
+        result = img.copy()
+        result = cv2.cvtColor(result, cv2.COLOR_BGR2BGRA)
+        
+        result[:, :, 3] = mask
+        
+
+        # save resulting masked image
+        cv2.imwrite(filename, result)
+
+        # display result, though it won't show transparency
+        #cv2.imshow("INPUT", img)
+        #cv2.imshow("GRAY", gray)
+        #cv2.imshow("MASK", mask)
+        #cv2.imshow("RESULT", result)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
@@ -414,12 +465,15 @@ if __name__ == "__main__":
     #import unittest
     #unittest.main()
     from memory_profiler import profile
-    @profile
+    #@profile
     def main():
         arc = ArcSVGMainProcess("ArcMatrixV2.svg", (1024,1024), "evenodd")
-        
+        arc.svgDoc.add(arc.svgDoc.rect(size = (arc.dimensions), fill = "white"))
         arc.addShape(Etype="Circle", center = arc.center, majorRadius = 150)
-        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 5)
+        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
+        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 25, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
+        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 200, minorRadius= 50, points = 6,Opaque= True, strokeWidth=2)
+
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 100)
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 240, strokeColor= "red", Opaque= False)
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 350)
@@ -427,6 +481,7 @@ if __name__ == "__main__":
         arc.parseBuildData()
         arc.exportSVG()
         arc.printLayerContent()
+        arc.exportTransPNG()
 
     main()
 

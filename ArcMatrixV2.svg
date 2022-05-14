@@ -1,9 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="1024" version="1.1" width="1024">
   <defs/>
+  <rect fill="white" height="1024" width="1024" x="0" y="0"/>
   <circle cx="512.0" cy="512.0" fill="none" id="Circle0" r="150" stroke="purple" stroke-width="2"/>
-  <circle cx="512.0" cy="362.0" fill="none" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="654.658477444273" cy="465.6474508437579" fill="none" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="600.167787843871" cy="633.3525491562422" fill="none" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="423.83221215612906" cy="633.3525491562422" fill="none" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="369.34152255572695" cy="465.6474508437579" fill="none" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="512.0" cy="362.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="654.658477444273" cy="465.6474508437579" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="600.167787843871" cy="633.3525491562422" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="423.83221215612906" cy="633.3525491562422" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="369.34152255572695" cy="465.6474508437579" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="512.0" cy="487.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="535.7764129073788" cy="504.2745751406263" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="526.6946313073119" cy="532.2254248593737" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="497.30536869268815" cy="532.2254248593737" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="488.2235870926212" cy="504.2745751406263" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="512.0" cy="312.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="685.2050807568877" cy="412.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="685.2050807568878" cy="612.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="512.0" cy="712.0" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="338.7949192431123" cy="612.0000000000001" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="338.7949192431122" cy="412.0000000000001" fill="white" id="Circlering0" r="50" stroke="purple" stroke-width="2"/>
 </svg>
