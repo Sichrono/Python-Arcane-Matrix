@@ -1,6 +1,4 @@
-
 from math import cos, sin, floor, radians, pi
-from turtle import width
 import lxml.etree as etree
 import random
 import svgwrite
@@ -10,8 +8,8 @@ import wand.image
 import cv2
 import numpy as np
 
-class PriorityQueue: #https://youtu.be/wptevk0bshY
-    pass
+#class PriorityQueue: #https://youtu.be/wptevk0bshY
+#    pass
 
 
 class Queue:
@@ -59,15 +57,36 @@ class ArcSVGShapeTools: #base class with all the functions, such as point genera
             '''
         pass
 
-    def ListPointCoordGen(self, center,  majorRadius, points):
+    def ListPointCoordGen(self, center,  majorRadius, points, rotation = 0, pointCenter = False):
         polar_coords = []
         iteration = 0
         x,y = center
+        rotation = radians(rotation)
         while iteration < points:
             angle = iteration*((radians(360)/points))-pi/2
-            polar_coords.append((majorRadius*cos(angle)+x, majorRadius*sin(angle)+y))
+            
+            x1,y1 = cos(angle), sin(angle)
+            '''
+            print(x1,y1)
+            if pointCenter:
+                xp = x1*cos(rotation)-y1*sin(rotation)
+                yp = y1*cos(rotation)+x1*sin(rotation)
+                polar_coords.append((majorRadius*xp+x,majorRadius*yp+y))
+                iteration += 1
+            '''
+            
+            polar_coords.append((majorRadius*x1+x,majorRadius*y1+y))
             iteration += 1
         return polar_coords
+    def ListPointCoordGen2(self, center,  majorRadius, points, rotation = 0, pointCenter = True):
+        polar_coords = []
+        iteration = 0
+        x0,y0 = center #center of the dial
+        for i in range(1, points):
+            pass
+
+
+
 #different classes to handle different shapes that can be added
 class ArcSVGCircle:
     def __init__(self, id, center, majorRadius, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
@@ -79,7 +98,7 @@ class ArcSVGCircle:
         self.strokeWidth = strokeWidth
         self.Opaque = Opaque
         self.fill = fill
-
+        
 class ArcSVGRotaryDial(ArcSVGShapeTools):
     def __init__(self, id, center, majorRadius, minorRadius, points, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
         self.SId = f"RotaryDial{id}"
@@ -99,16 +118,53 @@ class ArcSVGRotaryDial(ArcSVGShapeTools):
         return ArcSVGShapeTools.ListPointCoordGen(self, center = self.center, majorRadius = self.majorRadius, points = self.points)
     def makeRings(self):
         rings = []
-        id = 0
+        tid = 0
         for c in self.pointsList:
-            rings.append(ArcSVGCircle(id = f"ring{id}",
+            rings.append(ArcSVGCircle(id = f"{tid}_{self.SId}",
                                         center = c,
                                         majorRadius= self.minorRadius,
                                         strokeColor = self.strokeColor, 
                                         strokeWidth = self.strokeWidth, 
                                         Opaque = self.Opaque,
                                         fill = self.fill))
+            tid += 1
         return rings
+
+class ArcSVGRotaryGon(ArcSVGShapeTools):
+    def __init__(self, id, center, majorRadius, minorRadius, points, shapeCount = None, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
+        self.SId = f"RotaryGon{id}"
+        self.type = "RotaryGon"
+        self.center = center
+        self.majorRadius = majorRadius
+        self.minorRadius = minorRadius
+        self.points = points
+        self.shapeCount = shapeCount
+        self.strokeColor = strokeColor
+        self.strokeWidth = strokeWidth
+        self.Opaque = Opaque
+        self.fill = fill
+        self.pointsList = self.makePointsList()
+        self.polygons = self.makePolygons()
+        #print(self.pointsList)
+    def makePointsList(self):
+        return ArcSVGShapeTools.ListPointCoordGen(self, center = self.center,
+                                                        majorRadius = self.majorRadius, 
+                                                        points = self.points)
+
+    def makePolygons(self):
+        polygons = []
+        tid = 0
+        for c in self.pointsList:
+            polygons.append(ArcSVGPolygon(id = f"{tid}_{self.SId}",
+                                        center = c,
+                                        majorRadius= self.minorRadius,
+                                        points = self.points,
+                                        strokeColor = self.strokeColor, 
+                                        strokeWidth = self.strokeWidth, 
+                                        Opaque = self.Opaque,
+                                        fill = self.fill))
+            tid += 1
+        return polygons
 
 class ArcSVGLineBurst:
     def __init__(self, id, center, majorRadius, points, strokeColor = "purple", strokeWidth = 2, fill = "none"):
@@ -145,11 +201,10 @@ class ArcSVGPolyStar:
         self.Opaque = Opaque
         self.fill = fill
 
-class ArcSVGPolygon:
+class ArcSVGPolygon(ArcSVGShapeTools):
     def __init__(self, id, center, majorRadius, points, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
         self.SId = f"Polygon{id}"
         self.type = "Polygon"
-        self.center = center
         self.center = center
         self.majorRadius = majorRadius
         self.points = points
@@ -157,6 +212,11 @@ class ArcSVGPolygon:
         self.strokeWidth = strokeWidth
         self.Opaque = Opaque
         self.fill = fill
+        self.pointsList = self.makePointsList()
+        
+    def makePointsList(self):
+        return ArcSVGShapeTools.ListPointCoordGen(self, center = self.center, majorRadius = self.majorRadius, points = self.points)
+
 
 class IDEntry:
     def __init__(self, Etype):
@@ -188,7 +248,9 @@ class ArcSVGMainGen:#basically keep track of layers
                         "Stargram": IDEntry("Stargram"), 
                         "RotaryDial": IDEntry("RotaryDial"), 
                         "PolyStar": IDEntry("PolyStar"),
-                        "LineBurst": IDEntry("LineBurst")}
+                        "LineBurst": IDEntry("LineBurst"),
+                        "RotaryGon": IDEntry("RotaryGon")}
+
     def makeBuildOrder(self):
         orderIDs = []
         order = []
@@ -226,7 +288,20 @@ class ArcSVGMainGen:#basically keep track of layers
         return newID
 
         
-    def addShape(self, Etype, Layer= None, center = None, majorRadius= None, minorRadius = None, points = 0, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
+    def addShape(
+            self, 
+            Etype,
+            Layer= None, 
+            center = None, 
+            majorRadius= None, 
+            minorRadius = None, 
+            points = 0, 
+            shapeCount = None,
+            strokeColor = "purple",
+            strokeWidth = 2, 
+            Opaque = False, 
+            fill = "none"
+    ):
         
         if Layer is None:
             newLayer = Queue(id = f"Layer{self.newLayerID()}")
@@ -236,24 +311,29 @@ class ArcSVGMainGen:#basically keep track of layers
         
         match Etype:
             case "Circle":
-                newShape = ArcSVGCircle(id = newID,
-                                        center = center,
-                                        majorRadius= majorRadius,
-                                        strokeColor = strokeColor, 
-                                        strokeWidth = strokeWidth, 
-                                        Opaque = Opaque,
-                                        fill = fill)
+                newShape = ArcSVGCircle(
+                                    id = newID,
+                                    center = center,
+                                    majorRadius= majorRadius,
+                                    strokeColor = strokeColor, 
+                                    strokeWidth = strokeWidth, 
+                                    Opaque = Opaque,
+                                    fill = fill
+                                    )
                 newLayer.enqueue(newShape)
                 return newShape
 
             case "Polygon":
-                newShape = ArcSVGPolygon(id = newID, 
-                                         center = center,
-                                         majorRadius = majorRadius,  
-                                         points = points,
-                                         strokeColor = strokeColor,
-                                         strokeWidth = strokeWidth,
-                                         fill = fill)
+                newShape = ArcSVGPolygon(
+                                    id = newID, 
+                                    center = center,
+                                    majorRadius = majorRadius,  
+                                    points = points,
+                                    strokeColor = strokeColor,
+                                    strokeWidth = strokeWidth,
+                                    Opaque = Opaque,
+                                    fill = fill
+                                    )
                 newLayer.enqueue(newShape)
                 return newShape
 
@@ -304,15 +384,29 @@ class ArcSVGMainGen:#basically keep track of layers
                 newLayer.enqueue(newShape)
                 return newShape
 
+            case "RotaryGon":
+                newShape = ArcSVGRotaryGon(id = newID, 
+                                            center = center,
+                                            majorRadius = majorRadius, 
+                                            minorRadius = minorRadius,
+                                            points = points, 
+                                            shapeCount = shapeCount,
+                                            strokeColor = strokeColor, 
+                                            strokeWidth = strokeWidth, 
+                                            Opaque = Opaque,
+                                            fill = fill)
+                newLayer.enqueue(newShape)
+                return newShape
             
 
 class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out into a proper svg file with svgwrite
-    def __init__(self, filename, dimensions, fillrule):
+    def __init__(self, filename, dimensions, fillrule = "evenodd"):
         self.filename = str(filename)
         self.svgDoc = svgwrite.Drawing(filename=str(self.filename),
                                         size = dimensions,
                                         profile='full',
                                         debug=True)
+        self.svgDoc.fill(rule = fillrule)
         self.dimensions = dimensions
         self.center = self.getCenter(dimensions)
         self.build = ArcSVGMainGen()
@@ -325,8 +419,20 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
         return order
     def printLayerContent(self):
         self.build.printLayerContent()
-    def addShape(self, Etype, center, majorRadius, Layer= None, minorRadius = None, points = 0, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
-        return self.build.addShape(Etype, Layer= Layer, center = center, majorRadius= majorRadius, minorRadius = minorRadius, points = points, strokeColor = strokeColor, strokeWidth = strokeWidth, Opaque = Opaque, fill = fill)
+    def addShape(self, Etype, center, majorRadius, Layer= None, minorRadius = None, points = 0, shapeCount = None, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
+        return self.build.addShape(
+                                Etype, 
+                                Layer= Layer, 
+                                center = center, 
+                                majorRadius= majorRadius, 
+                                minorRadius = minorRadius, 
+                                points = points, 
+                                shapeCount = points if shapeCount is None else shapeCount,
+                                strokeColor = strokeColor, 
+                                strokeWidth = strokeWidth, 
+                                Opaque = Opaque, 
+                                fill = fill)
+
 
     def getCenter(self, dimensions):
         width,height = dimensions
@@ -366,35 +472,18 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
             Etype = shape.type
 
             match Etype: #determine what type of generation is needed
-                case "Circle":
-                    if shape.Opaque:
-                        defs = doc.defs
-                        maskID = shape.SId + "-Mask"
-                        mask = defs.add(doc.mask(id = maskID, size = (self.dimensions)))
-                        #  fill = "white", height="100%", width="100%"
-                        mask.add(doc.rect(size = (self.dimensions), fill = "white"))
-                        #doc.rect(width = "100%", height = "100%", fill = "white"
-                        mask.add(doc.circle(r = shape.majorRadius, center = shape.center, fill = "black"))
-                        #mask.add(doc.use(href = f"#{shape.SId}", fill = "black"))
-                        circle = doc.add(doc.circle(id = shape.SId,
-                                                    center = shape.center,
-                                                    r = shape.majorRadius,
-                                                    stroke = shape.strokeColor,
-                                                    stroke_width = shape.strokeWidth,
-                                                    fill = shape.fill))
-
-                    else:
-                        circle = doc.add(doc.circle(id = shape.SId,
-                                                center = shape.center,
-                                                r = shape.majorRadius,
-                                                stroke = shape.strokeColor,
-                                                stroke_width = shape.strokeWidth,
-                                                fill = shape.fill))
+                case "Circle":      
+                    circle = doc.add(doc.circle(id = shape.SId,
+                                            center = shape.center,
+                                            r = shape.majorRadius,
+                                            stroke = shape.strokeColor,
+                                            stroke_width = shape.strokeWidth,
+                                            fill = shape.fill))
                     
                 case "RotaryDial":
+                    filler = "white" if shape.Opaque else shape.fill
                     for s in shape.rings:
-                        filler = "white" if s.Opaque else s.fill
-                        circle = doc.add(doc.circle(id = s.SId,
+                        ring = doc.add(doc.circle(id = s.SId,
                                                 center = s.center,
                                                 r = s.majorRadius,
                                                 stroke = s.strokeColor,
@@ -402,16 +491,30 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
                                                 fill = filler))
 
                 case "Polygon":
-                    pass
+                    filler = "white" if shape.Opaque else shape.fill
+                    polygon = doc.add(doc.polygon(id = shape.SId,
+                                                points = shape.pointsList,
+                                                stroke = shape.strokeColor,
+                                                stroke_width = shape.strokeWidth,
+                                                fill = filler))
+
                 case "Stargram":
                     pass
-        
-
                 case "PolyStar":
                     pass
                 case "LineBurst":
                     pass
-    
+                case "RotaryGon":
+                    filler = "white" if shape.Opaque else shape.fill
+                    for p in shape.polygons:
+                        polygon = doc.add(doc.polygon(id = p.SId,
+                                                points = p.pointsList,
+                                                stroke = p.strokeColor,
+                                                stroke_width = p.strokeWidth,
+                                                fill = filler))
+
+
+    #https://stackoverflow.com/questions/2932408/server-side-svg-to-png-or-some-other-image-format-in-python
     def removebackground(self, filename, threshhold = 150):
     # load image
         img = cv2.imread(f'{filename}')
@@ -470,9 +573,12 @@ if __name__ == "__main__":
         arc = ArcSVGMainProcess("ArcMatrixV2.svg", (1024,1024), "evenodd")
         arc.svgDoc.add(arc.svgDoc.rect(size = (arc.dimensions), fill = "white"))
         arc.addShape(Etype="Circle", center = arc.center, majorRadius = 150)
-        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
-        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 25, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
-        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 200, minorRadius= 50, points = 6,Opaque= True, strokeWidth=2)
+        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 5, Opaque= True, strokeWidth=2)
+        
+        arc.addShape(Etype="RotaryGon", center = arc.center, majorRadius = 20, minorRadius= 50, points =5, shapeCount = 10, Opaque= True, strokeWidth=2)
+        #arc.addShape(Etype="Polygon", center = arc.center, majorRadius = 150, points = 5,Opaque= True, strokeWidth=2)
+        #arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 25, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
+        #arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 200, minorRadius= 50, points = 10,Opaque= False, strokeWidth=2)
 
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 100)
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 240, strokeColor= "red", Opaque= False)
@@ -480,8 +586,8 @@ if __name__ == "__main__":
 
         arc.parseBuildData()
         arc.exportSVG()
-        arc.printLayerContent()
-        arc.exportTransPNG()
+        #arc.printLayerContent()
+        #arc.exportTransPNG()
 
     main()
 
