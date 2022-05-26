@@ -1,0 +1,6 @@
+- Change the way center coords are generated for each rotary
+  - instead of being created at generation, make them at evaluation OR both and just update
+- Add Star shape functionality
+  - Stargrams
+  - Polystars
+- 

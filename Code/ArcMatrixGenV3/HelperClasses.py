@@ -46,6 +46,7 @@ class IDEntry:
         self.LastId = newID
         return newID
 
+#dead class
 class ArcSVGShapeTools: #base class with all the functions, such as point generation, rotation, etc
     def __init__(self): #Etype
         '''
