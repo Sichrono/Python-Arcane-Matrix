@@ -1,26 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" fill-rule="evenodd" height="1024" version="1.1" width="1024">
   <defs/>
-  <polygon fill="none" points="512,312 668,387 707,557 599,692 425,692 317,557 356,387" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <polyline fill="none" points="512,312 512.0,512.0 702,450 512.0,512.0 630,674 512.0,512.0 394,674 512.0,512.0 322,450 512.0,512.0" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="512,312 702,450 630,674 394,674 322,450" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
   <circle cx="512.0" cy="512.0" fill="none" r="200" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="512,245 512,312 564,270 512,312 577,327 512,312 541,372 512,312 483,372 512,312 447,327 512,312 460,270 512,312" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="512,245 564,270 577,327 541,372 483,372 447,327 460,270" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <polyline fill="none" points="512,245 512,312 575,291 512,312 551,366 512,312 473,366 512,312 449,291 512,312" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="512,245 575,291 551,366 473,366 449,291" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
   <circle cx="512" cy="312" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="668,320 668,387 720,345 668,387 733,402 668,387 697,447 668,387 639,447 668,387 603,402 668,387 616,345 668,387" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="668,320 720,345 733,402 697,447 639,447 603,402 616,345" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="668" cy="387" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="707,490 707,557 759,515 707,557 772,572 707,557 736,617 707,557 678,617 707,557 642,572 707,557 655,515 707,557" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="707,490 759,515 772,572 736,617 678,617 642,572 655,515" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="707" cy="557" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="599,625 599,692 651,650 599,692 664,707 599,692 628,752 599,692 570,752 599,692 534,707 599,692 547,650 599,692" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="599,625 651,650 664,707 628,752 570,752 534,707 547,650" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="599" cy="692" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="425,625 425,692 477,650 425,692 490,707 425,692 454,752 425,692 396,752 425,692 360,707 425,692 373,650 425,692" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="425,625 477,650 490,707 454,752 396,752 360,707 373,650" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="425" cy="692" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="317,490 317,557 369,515 317,557 382,572 317,557 346,617 317,557 288,617 317,557 252,572 317,557 265,515 317,557" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="317,490 369,515 382,572 346,617 288,617 252,572 265,515" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="317" cy="557" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
-  <polyline fill="none" points="356,320 356,387 408,345 356,387 421,402 356,387 385,447 356,387 327,447 356,387 291,402 356,387 304,345 356,387" stroke="green" stroke-width="2"/>
-  <polygon fill="none" points="356,320 408,345 421,402 385,447 327,447 291,402 304,345" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
-  <circle cx="356" cy="387" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
+  <polyline fill="none" points="702,383 702,450 765,429 702,450 741,504 702,450 663,504 702,450 639,429 702,450" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="702,383 765,429 741,504 663,504 639,429" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <circle cx="702" cy="450" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
+  <polyline fill="none" points="630,607 630,674 693,653 630,674 669,728 630,674 591,728 630,674 567,653 630,674" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="630,607 693,653 669,728 591,728 567,653" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <circle cx="630" cy="674" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
+  <polyline fill="none" points="394,607 394,674 457,653 394,674 433,728 394,674 355,728 394,674 331,653 394,674" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="394,607 457,653 433,728 355,728 331,653" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <circle cx="394" cy="674" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
+  <polyline fill="none" points="322,383 322,450 385,429 322,450 361,504 322,450 283,504 322,450 259,429 322,450" stroke="green" stroke-width="2"/>
+  <polygon fill="none" points="322,383 385,429 361,504 283,504 259,429" stroke="green" stroke-linejoin="bevel" stroke-width="2"/>
+  <circle cx="322" cy="450" fill="none" r="66.66666666666667" stroke="purple" stroke-width="2"/>
 </svg>

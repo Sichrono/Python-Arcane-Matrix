@@ -7,11 +7,10 @@ import wand.color
 import wand.image   
 import cv2
 import numpy as np
+import pyglet
 
 #class PriorityQueue: #https://youtu.be/wptevk0bshY
-#    pass
-
-
+#https://pyglet.readthedocs.io/en/latest/index.html
 class Queue:
     def __init__(self, id):
         self._Qid = id
@@ -37,6 +36,13 @@ class Queue:
     
     def returnQueue(self):
         return self._L
+class ArcCanvas:
+    def  __init__(self, size):
+        self.size = size
+
+    def getCenter(self, dimensions):
+        width,height = dimensions
+        return width/2,height/2
 
 class ArcSVGShapeTools: #base class with all the functions, such as point generation, rotation, etc
     def __init__(self): #Etype
@@ -399,8 +405,8 @@ class ArcSVGMainGen:#basically keep track of layers
                 return newShape
             
 
-class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out into a proper svg file with svgwrite
-    def __init__(self, filename, dimensions, fillrule = "evenodd"):
+class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump it out into a proper svg file with svgwrite
+    def __init__(self, filename, dimensions, build , fillrule = "evenodd"):
         self.filename = str(filename)
         self.svgDoc = svgwrite.Drawing(filename=str(self.filename),
                                         size = dimensions,
@@ -409,16 +415,18 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
         self.svgDoc.fill(rule = fillrule)
         self.dimensions = dimensions
         self.center = self.getCenter(dimensions)
-        self.build = ArcSVGMainGen()
+        self.build = build 
         self.buildata = None
-
+        
     def makeBuildOrder(self,printed=False):
         order = self.build.makeBuildOrder()
         if printed:
             print(order)
         return order
+
     def printLayerContent(self):
         self.build.printLayerContent()
+
     def addShape(self, Etype, center, majorRadius, Layer= None, minorRadius = None, points = 0, shapeCount = None, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
         return self.build.addShape(
                                 Etype, 
@@ -459,7 +467,6 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
                 out.write(png_image)
             if not whitebg:
                 self.removebackground(f"wand-{self.filename[:-4]}.png")
-        
         
 
     def generateBuildData(self): #this figures out what needs to be masked
@@ -550,7 +557,6 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
         
         result[:, :, 3] = mask
         
-
         # save resulting masked image
         cv2.imwrite(filename, result)
 
@@ -561,8 +567,9 @@ class ArcSVGMainProcess(ArcSVGMainGen):#take stuff from main and pump it out int
         #cv2.imshow("RESULT", result)
         #cv2.waitKey(0)
         #cv2.destroyAllWindows()
-
-
+class ArcSVGMainProcess_PYQT5(ArcSVGMainGen):
+    pass
+    
 if __name__ == "__main__":
     #from ArcMatrixGenTester import testArcMatrixGen
     #import unittest
@@ -570,20 +577,21 @@ if __name__ == "__main__":
     from memory_profiler import profile
     #@profile
     def main():
-        arc = ArcSVGMainProcess("ArcMatrixV2.svg", (1024,1024), "evenodd")
-        arc.svgDoc.add(arc.svgDoc.rect(size = (arc.dimensions), fill = "white"))
-        arc.addShape(Etype="Circle", center = arc.center, majorRadius = 150)
-        arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 5, Opaque= True, strokeWidth=2)
-        
-        arc.addShape(Etype="RotaryGon", center = arc.center, majorRadius = 20, minorRadius= 50, points =5, shapeCount = 10, Opaque= True, strokeWidth=2)
+        arcBuild = ArcSVGMainGen()
+        arc = ArcSVGMainProcess_SVGWRITE("ArcMatrixV2.svg", (1024,1024), arcBuild, "evenodd")
+
+        arcBuild.addShape(Etype="Circle", center = arc.center, majorRadius = 150)
+        arcBuild.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 150, minorRadius= 50, points = 3, Opaque= True, strokeWidth=2)
+        arcBuild.addShape(Etype="RotaryGon", center = arc.center, majorRadius = 20, minorRadius= 50, points =5, shapeCount = 10, Opaque= True, strokeWidth=2)
         #arc.addShape(Etype="Polygon", center = arc.center, majorRadius = 150, points = 5,Opaque= True, strokeWidth=2)
         #arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 25, minorRadius= 50, points = 5,Opaque= True, strokeWidth=2)
         #arc.addShape(Etype="RotaryDial", center = arc.center, majorRadius = 200, minorRadius= 50, points = 10,Opaque= False, strokeWidth=2)
-
+    
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 100)
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 240, strokeColor= "red", Opaque= False)
         #arc.addShape(Etype="Circle", center = arc.center, majorRadius = 350)
-
+        
+        arc.svgDoc.add(arc.svgDoc.rect(size = (arc.dimensions), fill = "white"))
         arc.parseBuildData()
         arc.exportSVG()
         #arc.printLayerContent()

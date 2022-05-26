@@ -3,10 +3,8 @@
   <rect fill="white" height="1024" width="1024" x="0" y="0"/>
   <circle cx="512.0" cy="512.0" fill="none" id="Circle0" r="150" stroke="purple" stroke-width="2"/>
   <circle cx="512.0" cy="362.0" fill="white" id="Circle0_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="654.658477444273" cy="465.6474508437579" fill="white" id="Circle1_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="600.167787843871" cy="633.3525491562422" fill="white" id="Circle2_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="423.83221215612906" cy="633.3525491562422" fill="white" id="Circle3_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
-  <circle cx="369.34152255572695" cy="465.6474508437579" fill="white" id="Circle4_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="641.9038105676658" cy="587.0" fill="white" id="Circle1_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="382.0961894323342" cy="587.0" fill="white" id="Circle2_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
   <polygon fill="white" id="Polygon0_RotaryGon0" points="512.0,442.0 559.5528258147576,476.54915028125265 541.3892626146237,532.4508497187473 482.61073738537635,532.4508497187473 464.4471741852423,476.54915028125265" stroke="purple" stroke-width="2"/>
   <polygon fill="white" id="Polygon1_RotaryGon0" points="531.0211303259031,455.819660112501 578.5739561406607,490.3688103937537 560.4103929405268,546.2705098312484 501.6318677112794,546.2705098312484 483.4683045111454,490.3688103937537" stroke="purple" stroke-width="2"/>
   <polygon fill="white" id="Polygon2_RotaryGon0" points="523.7557050458495,478.1803398874989 571.3085308606071,512.7294901687516 553.1449676604732,568.6311896062463 494.36644243122583,568.6311896062463 476.2028792310918,512.7294901687516" stroke="purple" stroke-width="2"/>

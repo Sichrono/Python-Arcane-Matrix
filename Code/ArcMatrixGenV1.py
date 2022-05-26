@@ -187,7 +187,7 @@ def main_Matrix(base,
                 current_radius = 0):
                 
     num_points = int(num_points_gen(ring_level = current_ring))
-    num_points = 7
+    num_points = 5
 
     print("num_points = ",num_points)
     if current_detail == max_detail:

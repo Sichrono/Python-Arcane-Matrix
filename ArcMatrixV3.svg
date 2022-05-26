@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" fill-rule="evenodd" height="1024" version="1.1" width="1024">
+  <defs/>
+  <rect fill="white" height="1024" width="1024" x="0" y="0"/>
+  <circle cx="512.0" cy="512.0" fill="none" id="Circle0" r="150" stroke="purple" stroke-width="2"/>
+  <circle cx="512.0" cy="362.0" fill="white" id="Circle0_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="629.2747223702045" cy="418.47652972119" fill="white" id="Circle1_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="658.2391868272736" cy="545.3781400934472" fill="white" id="Circle2_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="577.0825608676337" cy="647.1453301853628" fill="white" id="Circle3_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="446.9174391323663" cy="647.1453301853628" fill="white" id="Circle4_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="365.76081317272644" cy="545.3781400934472" fill="white" id="Circle5_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <circle cx="394.7252776297955" cy="418.47652972119" fill="white" id="Circle6_RotaryDial0" r="50" stroke="purple" stroke-width="2"/>
+  <polygon fill="white" id="Polygon0_RotaryGon0" points="512.0,312.0 559.5528258147576,346.54915028125265 541.3892626146237,402.45084971874735 482.61073738537635,402.45084971874735 464.4471741852423,346.54915028125265" stroke="purple" stroke-width="2"/>
+  <polygon fill="white" id="Polygon1_RotaryGon0" points="654.658477444273,415.6474508437579 702.2113032590306,450.19660112501055 684.0477400588967,506.09830056250524 625.2692148296493,506.09830056250524 607.1056516295153,450.19660112501055" stroke="purple" stroke-width="2"/>
+  <polygon fill="white" id="Polygon2_RotaryGon0" points="600.167787843871,583.3525491562422 647.7206136586286,617.9016994374948 629.5570504584947,673.8033988749895 570.7785252292473,673.8033988749895 552.6149620291133,617.9016994374948" stroke="purple" stroke-width="2"/>
+  <polygon fill="white" id="Polygon3_RotaryGon0" points="423.83221215612906,583.3525491562422 471.38503797088674,617.9016994374948 453.2214747707527,673.8033988749895 394.4429495415054,673.8033988749895 376.2793863413714,617.9016994374948" stroke="purple" stroke-width="2"/>
+  <polygon fill="white" id="Polygon4_RotaryGon0" points="369.34152255572695,415.6474508437579 416.89434837048464,450.19660112501055 398.7307851703506,506.09830056250524 339.9522599411033,506.09830056250524 321.78869674096927,450.19660112501055" stroke="purple" stroke-width="2"/>
+</svg>
