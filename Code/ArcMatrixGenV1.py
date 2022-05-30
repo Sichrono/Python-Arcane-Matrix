@@ -35,6 +35,7 @@ def num_points_gen(ring_level = 0):
 def get_draw_center(width, height):
     return width/2,height/2
 def determine_Steps(points):
+    
     reg_Steps, degen_Steps = [],[]
     half_limit = floor(points/2)
     if points > 13:

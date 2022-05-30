@@ -306,8 +306,7 @@ class ArcSVGMainGen:#basically keep track of layers
             strokeColor = "purple",
             strokeWidth = 2, 
             Opaque = False, 
-            fill = "none"
-    ):
+            fill = "none"):
         
         if Layer is None:
             newLayer = Queue(id = f"Layer{self.newLayerID()}")

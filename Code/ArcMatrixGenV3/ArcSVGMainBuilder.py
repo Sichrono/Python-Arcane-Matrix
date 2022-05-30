@@ -62,7 +62,8 @@ class ArcSVGMainGen:#basically keep track of layers
                 shapeCount = None,
                 strokeColor = "purple",
                 strokeWidth = 2, 
-                Opaque = False, 
+                Opaque = False,
+                rounder = False, 
                 fill = "none"):
         
         if Layer is None:
@@ -106,6 +107,7 @@ class ArcSVGMainGen:#basically keep track of layers
                                           points = points,
                                           strokeColor = strokeColor, 
                                           strokeWidth = strokeWidth,
+                                          rounder = rounder,
                                           fill = fill)
                 newLayer.enqueue(newShape)
                 return newShape

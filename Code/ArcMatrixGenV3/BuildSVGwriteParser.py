@@ -30,7 +30,7 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
 
     def printLayerContent(self):
         self.build.printLayerContent()
-
+    '''
     def addShape(self, Etype, center, majorRadius, Layer= None, minorRadius = None, points = 0, shapeCount = None, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
         return self.build.addShape(
                                 Etype, 
@@ -44,6 +44,7 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
                                 strokeWidth = strokeWidth, 
                                 Opaque = Opaque, 
                                 fill = fill)
+                                '''
 
 
     def getCenter(self, dimensions):
@@ -75,6 +76,7 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
 
     def generateBuildData(self): #this figures out what needs to be masked
         pass
+
     def parseBuildData(self):
         buildOrder, OrderIDs = self.makeBuildOrder()
         doc = self.svgDoc
@@ -110,7 +112,17 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
                                                 fill = filler))
 
                 case "Stargram":
-                    pass
+                    rounder = "round" if shape.rounder else None
+                    for s in shape.shapes:
+                        
+                        #print(s.center)
+                        gram = doc.add(doc.polygon(id = s.SId,
+                                                points = s.pointsList,
+                                                stroke = s.strokeColor,
+                                                stroke_width = s.strokeWidth,
+                                                stroke_linejoin = rounder,
+                                                fill= shape.fill))
+                    
                 case "PolyStar":
                     pass
                 case "LineBurst":
