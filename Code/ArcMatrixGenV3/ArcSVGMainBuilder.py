@@ -161,3 +161,6 @@ class ArcSVGMainGen:#basically keep track of layers
                                             fill = fill)
                 newLayer.enqueue(newShape)
                 return newShape
+            case _:
+                raise ValueError(f"Etype: {Etype} is not valid")
+                

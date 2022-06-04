@@ -576,6 +576,8 @@ if __name__ == "__main__":
     from memory_profiler import profile
     #@profile
     def main():
+
+        
         arcBuild = ArcSVGMainGen()
         arc = ArcSVGMainProcess_SVGWRITE("ArcMatrixV2.svg", (1024,1024), arcBuild, "evenodd")
 
@@ -596,7 +598,9 @@ if __name__ == "__main__":
         #arc.printLayerContent()
         #arc.exportTransPNG()
 
-    main()
+    #main()
+    def Hypotrochoid():
+        pass
 
     
     

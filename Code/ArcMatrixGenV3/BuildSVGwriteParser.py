@@ -92,17 +92,6 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
                                             stroke = shape.strokeColor,
                                             stroke_width = shape.strokeWidth,
                                             fill = shape.fill))
-                    
-                case "RotaryDial":
-                    filler = "white" if shape.Opaque else shape.fill
-                    for s in shape.rings:
-                        ring = doc.add(doc.circle(id = s.SId,
-                                                center = s.center,
-                                                r = s.majorRadius,
-                                                stroke = s.strokeColor,
-                                                stroke_width = s.strokeWidth,
-                                                fill = filler))
-
                 case "Polygon":
                     filler = "white" if shape.Opaque else shape.fill
                     polygon = doc.add(doc.polygon(id = shape.SId,
@@ -124,9 +113,26 @@ class ArcSVGMainProcess_SVGWRITE(ArcSVGMainGen):#take stuff from main and pump i
                                                 fill= shape.fill))
                     
                 case "PolyStar":
-                    pass
+                    filler = "white" if shape.Opaque else shape.fill
+                    PolyStar = doc.add(doc.polygon(id = shape.SId,
+                                                points = shape.pointsList,
+                                                stroke = shape.strokeColor,
+                                                stroke_width = shape.strokeWidth,
+                                                fill = filler))
+
                 case "LineBurst":
                     pass
+                
+                case "RotaryDial":
+                    filler = "white" if shape.Opaque else shape.fill
+                    for s in shape.rings:
+                        ring = doc.add(doc.circle(id = s.SId,
+                                                center = s.center,
+                                                r = s.majorRadius,
+                                                stroke = s.strokeColor,
+                                                stroke_width = s.strokeWidth,
+                                                fill = filler))
+
                 case "RotaryGon":
                     filler = "white" if shape.Opaque else shape.fill
                     for p in shape.polygons:

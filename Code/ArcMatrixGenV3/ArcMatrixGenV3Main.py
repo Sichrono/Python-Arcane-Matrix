@@ -3,7 +3,35 @@
 from ArcSVGMainBuilder import ArcSVGMainGen
 from BuildSVGwriteParser import ArcSVGMainProcess_SVGWRITE
 from memory_profiler import profile
+from math import cos, sin, floor, radians, pi, lcm
+
 if __name__ == "__main__":
+    def HypotrochoidPointsGen(R, r, d, center):
+        xc, yc = center
+        points = "M"
+        for i in range(100):
+            
+            x = (R-r)*cos(i)+d*cos((R-r)/r*i) + xc
+            y = (R-r)*sin(i)-d*sin((R-r)/r*i) + yc
+
+            points += (f"{x} {y} ")
+        points += "z"
+        #print(points)
+        return points
+    def HypocycloidPointsGen(k, r, center, steps = 20):
+        xc, yc = center
+        points = "M"
+        for i in range(19*k):
+            i /= steps
+            i -= pi/2
+
+            x = r*(k-1)*cos(i)+r*cos((k-1)*i) + xc
+            y = r*(k-1)*sin(i)-r*sin((k-1)*i) + yc
+
+            points += (f"{x} {y} ")
+        #points += "z"
+        #print(points)
+        return points
 
     #@profile
     def main():
@@ -16,10 +44,12 @@ if __name__ == "__main__":
             #for c in e.pointsList:
             #    arcBuild.addShape(Etype="RotaryDial", center = c, majorRadius = e.minorRadius, minorRadius= 15, points = 9, Opaque= True, strokeWidth=2)
 
-            arcBuild.addShape(Etype="Stargram", center = arc.center, majorRadius = 200, points = 13,rounder = True)
+            #arcBuild.addShape(Etype="Stargram", center = arc.center, majorRadius = 200, points = 7,rounder = True)
+            arcBuild.addShape(Etype="PolyStar", center = arc.center, majorRadius = 200, minorRadius= 150, points = 34,rounder = True)
             #arcBuild.addShape(Etype="Stargram", center = arc.center, majorRadius = 300, points = 6)
-
-
+            #arc.svgDoc.add(arc.svgDoc.path(d = HypocycloidPointsGen(k = 11, r = 40, center = arc.center), fill="none", stroke="#FFC681", stroke_width = 3))
+    
+            
 
 
             #arc.addShape(Etype="Polygon", center = arc.center, majorRadius = 150, points = 5,Opaque= True, strokeWidth=2)
@@ -36,3 +66,5 @@ if __name__ == "__main__":
             #arc.exportTransPNG()
 
     main()
+
+        

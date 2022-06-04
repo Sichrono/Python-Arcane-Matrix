@@ -131,6 +131,7 @@ class ArcSVGStargram:
         self.pointsList = self.makePointsList()
         self.shapes = self.makeParaStar()
         self.rounder = rounder
+        
     def makePointsList(self):
         return ListPointCoordGen(
                                 center = self.center,
@@ -244,7 +245,7 @@ class ArcSVGStargram:
     
 
 class ArcSVGPolyStar:
-    def __init__(self, id, center, majorRadius, minorRadius, points, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none"):
+    def __init__(self, id, center, majorRadius, minorRadius, points, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none", rotation = 0):
         self.SId = f"PolyStar{id}"
         self.type = "PolyStar"
         self.center = center
@@ -255,7 +256,29 @@ class ArcSVGPolyStar:
         self.strokeWidth = strokeWidth
         self.Opaque = Opaque
         self.fill = fill
+        self.pointsList = self.makePointsList(rotate= rotation)
         
+    def makePointsList(self,rotate):
+
+        inner = ListPointCoordGen(
+                    center = self.center, 
+                    majorRadius = self.majorRadius, 
+                    points = self.points,
+                    rotation = rotate)
+
+        outer = ListPointCoordGen(
+                    center = self.center, 
+                    majorRadius = self.minorRadius, 
+                    points = self.points,
+                    rotation = 360/(self.points*2))
+        points = []
+        for i in range(self.points):
+            points.append(outer[i])
+            points.append(inner[i])
+            
+        print(points)
+        return points
+
 
 class ArcSVGPolygon:
     def __init__(self, id, center, majorRadius, points, strokeColor = "purple", strokeWidth = 2, Opaque = False, fill = "none", rotation = 0, pointsList = None):
